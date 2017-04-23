@@ -1,6 +1,8 @@
+import os
+
 BUCKET_NAME = "Averaged Enviro PHAT"
-BUCKET_KEY = "***REMOVED***"
-ACCESS_KEY = "***REMOVED***"
+BUCKET_KEY = os.environ['IS_BUCKET_KEY']
+ACCESS_KEY = os.environ['IS_ACCESS_KEY']
 SENSOR_NAME = "Enviro PHAT"
 
 # Set the time between sensor reads

@@ -15,9 +15,8 @@ class TempReader(object):
         self.cpu_temp_queue = RollingAverage(rolling_avg_window)
         self._last_cpu_temp_reading = None
         self._last_sensor_temp_reading = None
-        print "Creating Logger"
         self.logger = logging.getLogger("temp_reader")
-        print "Done"
+        self.logger.setLevel(logging.INFO)
 
     def _add_cpu_temp_to_queue(self, val=None):
         if not val:
@@ -85,7 +84,7 @@ class CalibratedTempReader(TempReader):
     def _start_filling_queue(self):
         self._stop_thread = False
         self._queue_filler_thread.start()
-        print "Waiting for queue of size {} to fill".format(self.calibrated_queue.window_size)
+        self.logger.info("Waiting for queue of size {} to fill".format(self.calibrated_queue.window_size))
         while not self.calibrated_queue.is_full:
             self.logger.debug("Waiting for queue ({}) to fill up... (currently: {})".format(self.calibrated_queue.window_size, self.calibrated_queue.values))
             time.sleep(1)

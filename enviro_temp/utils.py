@@ -1,3 +1,4 @@
+
 class RollingAverage(object):
 
     def __init__(self, window_size):

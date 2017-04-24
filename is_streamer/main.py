@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 from __future__ import division
+
 import time
+
 from ISStreamer.Streamer import Streamer
-from temp_reader import CalibratedTempReader
+
 from constants import *
+from enviro_temp.temp_reader import CalibratedTempReader
 
 
 class MyStreamer(object):

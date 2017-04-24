@@ -1,0 +1,2 @@
+python-nest==3.2.0
+envirophat==0.0.6

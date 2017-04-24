@@ -7,17 +7,22 @@ import time
 class MyNest(nest.Nest):
 
     def __init__(self, dummy_mode=False):
-        self._dummy_data = {}
-        self.logger = logging.getLogger('nest_wrapper')
-        logging.basicConfig()
-        kwargs = self._get_auth_kwargs()
+        self.logger = self._setup_logger()
 
+        kwargs = self._get_auth_kwargs()
         super(MyNest, self).__init__(**kwargs)
+
         self._check_authorization()
-        self.thermostat = self._get_thermostat()
+        self._thermostat = None
+
         if dummy_mode:
+            self._dummy_data = {}
             self.thermostat._set = self._dummy_set
-        self.logger.info("Using thermostat: {}".format(self.thermostat.name))
+
+    def _setup_logger(self):
+        logger = logging.getLogger('nest_wrapper')
+        logging.basicConfig()
+        return logger
 
     def _get_auth_kwargs(self):
         kwargs = {
@@ -37,18 +42,22 @@ class MyNest(nest.Nest):
             pin = raw_input("PIN: ")
             self.request_token(pin)
 
-    def _get_thermostat(self):
-        thermos = self.thermostats
-        if len(thermos) != 1:
-            raise Exception("Found {} thermostats, expected only 1".format(len(thermos)))
-        return thermos[0]
-
     def _validate_temp(self, temp):
         assert isinstance(temp, (int, float)) and temp in range(55, 85), "Invalid temp: {}".format(temp)
 
     def _set_mode(self, mode):
         self.logger.debug("Setting mode to '{}'".format(mode))
         self.thermostat.mode = mode
+
+    @property
+    def thermostat(self):
+        if not self._thermostat:
+            thermos = self.thermostats
+            if len(thermos) != 1:
+                raise Exception("Found {} thermostats, expected only 1".format(len(thermos)))
+            self._thermostat = thermos[0]
+            self.logger.info("Using thermostat: {}".format(self._thermostat.name))
+        return self._thermostat
 
     def set_to_heat(self):
         self._set_mode('heat')

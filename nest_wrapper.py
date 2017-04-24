@@ -17,7 +17,7 @@ class MyNest(nest.Nest):
         self.thermostat = self._get_thermostat()
         if dummy_mode:
             self.thermostat._set = self._dummy_set
-        print "Using thermostat: {}".format(self.thermostat.name)
+        self.logger.info("Using thermostat: {}".format(self.thermostat.name))
 
     def _get_auth_kwargs(self):
         kwargs = {

@@ -48,7 +48,7 @@ class TempReader(object):
 
 class CalibratedTempReader(TempReader):
 
-    def __init__(self, calibration_factor, rolling_avg_window=10):
+    def __init__(self, calibration_factor=1.1, rolling_avg_window=5):
         super(CalibratedTempReader, self).__init__(rolling_avg_window=rolling_avg_window)
         self.calibration_factor = calibration_factor
         self._thread_fill_frequency = 1 # Hz

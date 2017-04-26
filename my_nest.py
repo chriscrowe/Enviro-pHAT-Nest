@@ -49,6 +49,12 @@ class MyNest(nest.Nest):
         self.logger.debug("Setting mode to '{}'".format(mode))
         self.thermostat.mode = mode
 
+    def _set_to_heat(self):
+        self._set_mode('heat')
+
+    def _set_to_cool(self):
+        self._set_mode('cool')
+
     @property
     def thermostat(self):
         if not self._thermostat:
@@ -58,12 +64,6 @@ class MyNest(nest.Nest):
             self._thermostat = thermos[0]
             self.logger.info("Using thermostat: {}".format(self._thermostat.name))
         return self._thermostat
-
-    def set_to_heat(self):
-        self._set_mode('heat')
-
-    def set_to_cool(self):
-        self._set_mode('cool')
 
     @property
     def current_temp(self):
@@ -76,12 +76,16 @@ class MyNest(nest.Nest):
             return
 
         if target_temp > curr_temp:
-            self.set_to_heat()
+            self._set_to_heat()
         else:
-            self.set_to_cool()
+            self._set_to_cool()
 
         self.logger.debug("Setting target temp to {}*F".format(target_temp))
         self.thermostat.target = target_temp
+
+    def set_target_relative_to_ambient(self, delta):
+        target = self.current_temp + delta
+        self.set_target_temp(target)
 
 
 if __name__  == "__main__":

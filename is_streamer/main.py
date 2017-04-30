@@ -20,9 +20,9 @@ def main():
     cal_temp_reader = CalibratedTempReader(calibration_factor=1.1)
     try:
         while True:
-            instant_cpu_temp = cal_temp_reader.instant_cpu_temp()
+            instant_cpu_temp = cal_temp_reader.cpu_temp()
             avg_cpu_temp = cal_temp_reader.avg_cpu_temp()
-            instant_sensor_temp = cal_temp_reader.instant_sensor_temp()
+            instant_sensor_temp = cal_temp_reader.sensor_temp()
             avg_cal_temp = cal_temp_reader.avg_calibrated_temp()
 
             is_streamer.log(INSTANT_CPU_TEMP_LABEL, str("{0:.2f}".format(instant_cpu_temp)))

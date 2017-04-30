@@ -14,5 +14,5 @@ class RollingAverage(object):
         while len(self.values) > self.window_size:
             del self.values[0]
 
-    def get_average(self):
-        return sum(self.values) / float(len(self.values))
+    def get_average(self, offset=0):
+        return sum([x+offset for x in self.values]) / float(len(self.values))

@@ -4,7 +4,7 @@ import logging
 
 import time
 
-from enviro_temp.temp_reader import CalibratedTempReader
+from enviro_temp.calibrated_temp_reader import CalibratedTempReader
 from my_nest import MyNest
 
 

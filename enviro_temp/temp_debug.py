@@ -4,7 +4,8 @@ import time
 
 import sys
 
-from temp_reader import CalibratedTempReader
+from enviro_temp.calibrated_temp_reader import CalibratedTempReader
+
 
 def main(as_tsv=False, rolling_avg_window=3, calibration_factor=1.3):
     cal_temp_reader = CalibratedTempReader(calibration_factor=calibration_factor, rolling_avg_window=rolling_avg_window)
@@ -17,13 +18,12 @@ def main(as_tsv=False, rolling_avg_window=3, calibration_factor=1.3):
         instant_cpu_temp = cal_temp_reader.cpu_temp()
         avg_cpu_temp = cal_temp_reader.avg_cpu_temp()
         instant_sensor_temp = cal_temp_reader.sensor_temp()
-        offset_sensor = cal_temp_reader.offset_temp()
-        avg_offset_sensor = cal_temp_reader.avg_offset_temp()
+        avg_sensor_temp = cal_temp_reader.avg_sensor_temp()
         avg_cal_temp = cal_temp_reader.avg_calibrated_temp()
-        delta = avg_offset_sensor - avg_cal_temp
+        delta = avg_sensor_temp - avg_cal_temp
 
         if as_tsv:
-            print "\t".join([str(round(x, 1)) for x in [instant_cpu_temp, avg_cpu_temp, instant_sensor_temp, offset_sensor, avg_offset_sensor, avg_cal_temp, delta]])
+            print "\t".join([str(round(x, 1)) for x in [instant_cpu_temp, avg_cpu_temp, instant_sensor_temp, avg_cal_temp, delta]])
         else:
             print "\033c"
 
@@ -31,15 +31,11 @@ def main(as_tsv=False, rolling_avg_window=3, calibration_factor=1.3):
                        "Instant CPU:       {instant_cpu:.1f}\n" \
                        "Avg CPU:           {avg_cpu:.1f}\n" \
                        "Instant Sensor:    {instant_sensor:.1f}\n" \
-                       "Offset Sensor:     {offset_sensor:.1f}\n" \
-                       "Avg Offset Sensor: {avg_offset_sensor:.1f}\n" \
                        "Avg Cal Sensor:    {avg_sensor:.1f}\n" \
-                       "Offset-Cal:        {delta}".format(
+                       "Sensor-Cal Delta:        {delta}".format(
                 instant_cpu=instant_cpu_temp,
                 avg_cpu=avg_cpu_temp,
                 instant_sensor=instant_sensor_temp,
-                offset_sensor=offset_sensor,
-                avg_offset_sensor=avg_offset_sensor,
                 avg_sensor=avg_cal_temp,
                 delta=delta,
             ))

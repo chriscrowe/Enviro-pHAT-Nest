@@ -18,9 +18,8 @@ def activate():
     return set_enabled(True)
 
 @app.route('/deactivate')
-def activate():
+def deactivate():
     return set_enabled(False)
-
 
 
 if __name__ == "__main__":

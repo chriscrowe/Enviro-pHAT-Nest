@@ -6,7 +6,7 @@ import time
 from ISStreamer.Streamer import Streamer
 
 from constants import *
-from enviro_temp.temp_reader import CalibratedTempReader
+from enviro_temp.calibrated_temp_reader import CalibratedTempReader
 
 
 class MyStreamer(object):

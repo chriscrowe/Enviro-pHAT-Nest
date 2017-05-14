@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{% if enabled %}Enable{% else %}Disable{% endif %}</h1>
+        <p>
+            Homepage.
+        </p>
+    </div>
+{% endblock %}
